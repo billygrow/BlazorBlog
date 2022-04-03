@@ -1,9 +1,55 @@
 ﻿@page "/"
+@inject IBlogService blogService
+@using BlogUI.Models
+@using BlogUI.Services
+@using Microsoft.AspNetCore.Html;
 
 <PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>Blog Posts</h1>
 
-Welcome to your new app.
+@foreach (var post in posts)
+{
+    <div>
+        <div>@post.Slug</div>
+        <div>
+            <p>
+                @post.Content
+            </p>
+        </div>
+    </div>
+    
+}
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+<div>
+     <EditForm Model="post" OnSubmit=@CreatePost>
+        <InputTextArea class="form-control" id="description" @bind-Value="post.Slug" />
+        <InputTextArea class="form-control" id="description" @bind-Value="post.Content" />
+      <input type="submit" value="Submit" class="btn btn-primary"/>
+    </EditForm>
+</div>
+
+@code {
+    private List<Post> posts;
+    private Post post = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        posts = new List<Post>();
+
+        await foreach (var post in blogService.GetPosts())
+        {
+            posts.Add(post);
+            this.StateHasChanged();
+        }
+    }
+
+    private async Task CreatePost()
+    {
+        await blogService.SavePost(post);
+
+        posts.Insert(0, post);
+        this.StateHasChanged();
+        post = new();
+    }
+}

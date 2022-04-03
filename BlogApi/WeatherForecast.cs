@@ -1,4 +1,4 @@
-namespace BlogUI.Data;
+namespace BlogApi;
 
 public class WeatherForecast
 {
