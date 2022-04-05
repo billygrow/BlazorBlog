@@ -1,7 +1,0 @@
-{
-	"ID": "test2",
-	"Slug": "test-post-two",
-	"Content": "This is the body of the second blog post. Content goes here.",
-	"PublishDate": "2022-02-01",
-	"IsPublished": true
-}

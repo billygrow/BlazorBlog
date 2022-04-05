@@ -1,1 +1,16 @@
-{"ID":"637845537189755117","Slug":"test-8eight","Content":"this is the eight form","PublishDate":"2022-04-03T03:35:18.9755165Z","IsPublished":true}
+{
+  "ID": "637845537189755117",
+  "Slug": "Tester the test",
+  "Title": "Post #4",
+  "Excerpt": "This is the fourth post.",
+  "Content": "tester the test test test test test\n",
+  "PublishDate": "2022-04-03T20:06:19.7874546Z",
+  "LastModified": "2022-04-03T20:06:19.7874546Z",
+  "IsPublished": true,
+  "Categories": [
+  ],
+  "Tags": [
+  ],
+  "Comments": [
+  ]
+}

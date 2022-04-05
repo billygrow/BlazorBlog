@@ -3,45 +3,71 @@
 @using BlogUI.Models
 @using BlogUI.Services
 @using Microsoft.AspNetCore.Html;
+@using Microsoft.Extensions.Options
 
-<PageTitle>Index</PageTitle>
+<PageTitle>Home</PageTitle>
 
-<h1>Blog Posts</h1>
+<div class="container">
+    <div class="row">
+    @foreach (var post in posts)
+    {
+        <div class="col-6 p-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">@post.Title</h5>
+                    <p class="card-text">
+                        @post.Excerpt
+                    </p>
+                </div>
+            </div>
+        </div> 
+        <div class="col-6 p-3"></div>
+    }
+    <div class="row">
+        @if (currentPage > 1)
+        {
+            <button class="btn btn-link col-1" @onclick="Previous"> Last </button>
+        }
 
-@foreach (var post in posts)
-{
-    <div>
-        <div>@post.Slug</div>
-        <div>
-            <p>
-                @post.Content
-            </p>
-        </div>
+        @if (currentPage < (totalPostCount / postsPerPage + 1))
+        {
+            <button class="btn btn-link col-1" @onclick="Next"> Next </button>
+        }
     </div>
-    
-}
+    </div>
+</div>
 
+@*
 <div>
      <EditForm Model="post" OnSubmit=@CreatePost>
         <InputTextArea class="form-control" id="description" @bind-Value="post.Slug" />
         <InputTextArea class="form-control" id="description" @bind-Value="post.Content" />
       <input type="submit" value="Submit" class="btn btn-primary"/>
     </EditForm>
-</div>
+</div>*@
 
 @code {
     private List<Post> posts;
     private Post post = new();
+    private int totalPostCount;
+
+    int skip = 0;
+    int currentPage = 1;
+    int postsPerPage = 4;
+
 
     protected override async Task OnInitializedAsync()
     {
         posts = new List<Post>();
 
-        await foreach (var post in blogService.GetPosts())
+        await foreach (var post in blogService.GetPosts(postsPerPage, skip))
         {
             posts.Add(post);
             this.StateHasChanged();
         }
+
+        totalPostCount = await GetTotalPosts();
+
     }
 
     private async Task CreatePost()
@@ -49,7 +75,40 @@
         await blogService.SavePost(post);
 
         posts.Insert(0, post);
+        totalPostCount++;
         this.StateHasChanged();
         post = new();
     }
+
+    private async Task Next()
+    {
+        skip = (++currentPage - 1) * postsPerPage;
+
+        posts = new();
+
+        await foreach (var post in blogService.GetPosts(postsPerPage, skip))
+        {
+            posts.Add(post);
+            this.StateHasChanged();
+        }
+    }
+
+    private async Task Previous()
+    {
+        skip = (--currentPage - 1) * postsPerPage;
+
+        posts = new();
+
+        await foreach (var post in blogService.GetPosts(postsPerPage, skip))
+        {
+            posts.Add(post);
+            this.StateHasChanged();
+        }
+    }
+
+    private async Task<int> GetTotalPosts()
+    {
+        return await blogService.GetPosts().CountAsync(); 
+    }
+
 }

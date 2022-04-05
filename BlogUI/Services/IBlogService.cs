@@ -14,9 +14,9 @@ public interface IBlogService
 
     IAsyncEnumerable<string> GetTags();
 
-    Task<Post?> GetPostById(string id);
+    Task<Post> GetPostById(string id);
 
-    Task<Post?> GetPostBySlug(string slug);
+    Task<Post> GetPostBySlug(string slug);
 
     IAsyncEnumerable<Post> GetPosts();
 

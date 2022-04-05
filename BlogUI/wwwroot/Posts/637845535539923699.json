@@ -1,7 +1,16 @@
 {
   "ID": "637845535539923699",
-  "Slug": "test-six",
-  "Content": "This is the 6th\ntest\ntest\ntest",
-  "PublishDate": "2022-04-03T03:32:33.9923769Z",
-  "IsPublished": true
+  "Slug": "Tester the test",
+  "Title": "Post #3",
+  "Excerpt": "This is the third post.",
+  "Content": "tester the test test test test test\n",
+  "PublishDate": "2022-04-03T20:06:19.7874546Z",
+  "LastModified": "2022-04-03T20:06:19.7874546Z",
+  "IsPublished": true,
+  "Categories": [
+  ],
+  "Tags": [
+  ],
+  "Comments": [
+  ]
 }

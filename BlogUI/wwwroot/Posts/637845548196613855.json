@@ -1,1 +1,16 @@
-{"ID":"637845548196613855","Slug":"create-a-new-post","Content":"this new post is a new post....","PublishDate":"2022-04-03T03:53:39.6613913Z","IsPublished":true}
+{
+  "ID": "637845548196613855",
+  "Slug": "Tester the test",
+  "Title": "Post #10",
+  "Excerpt": "This is the tenth post.",
+  "Content": "tester the test test test test test\n",
+  "PublishDate": "2022-04-03T20:06:19.7874546Z",
+  "LastModified": "2022-04-03T20:06:19.7874546Z",
+  "IsPublished": true,
+  "Categories": [
+  ],
+  "Tags": [
+  ],
+  "Comments": [
+  ]
+}

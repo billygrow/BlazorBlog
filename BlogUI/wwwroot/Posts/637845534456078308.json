@@ -1,1 +1,16 @@
-{"ID":"637845534456078308","Slug":"test-post-four","Content":"this is the fourth post. Will this work?","PublishDate":"2022-04-03T03:30:45.6078397Z","IsPublished":true}
+{
+  "ID": "637845534456078308",
+  "Slug": "Tester the test",
+  "Title": "Post #1",
+  "Excerpt": "This is the first post",
+  "Content": "tester the test test test test test\n",
+  "PublishDate": "2022-04-03T20:06:19.7874546Z",
+  "LastModified": "2022-04-03T20:06:19.7874546Z",
+  "IsPublished": true,
+  "Categories": [
+  ],
+  "Tags": [
+  ],
+  "Comments": [
+  ]
+}
