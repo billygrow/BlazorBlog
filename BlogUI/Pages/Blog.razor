@@ -1,1 +1,26 @@
-﻿@page "/blog/{id}"
+﻿@page "/blog/{Slug}"
+@inject IBlogService blogService
+@using BlogUI.Models
+@using BlogUI.Services
+
+<PageTitle>@post.Title</PageTitle>
+
+<div class="container">
+    <div>
+        <h1>@post.Title</h1>
+        <h4>@post.PublishDate</h4>
+        <p>@post.Content</p>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string slug { get; set; }
+    private Post post;
+
+    protected override async Task OnInitializedAsync()
+    {
+        post = await blogService.GetPostBySlug(slug);
+    }
+
+}

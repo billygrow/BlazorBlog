@@ -1,0 +1,58 @@
+﻿@page "/blog/newpost"
+@inject IBlogService blogService
+@inject NavigationManager navManager
+@using BlazorDateRangePicker
+@using BlogUI.Models
+@using BlogUI.Services
+
+<PageTitle>New Post</PageTitle>
+
+<div class="container">
+    <h1>New Post</h1>
+        <div>
+             <EditForm Model="post" OnSubmit=@CreatePost>
+                <label class="form-label" asp-for="@post.Title">Title</label>
+                <input class="form-control" required placeholder="Title of blog post" @bind-value="post.Title"/>
+                <br />
+
+                <label class="form-label" asp-for="@post.Slug">Slug</label>
+                <input class="form-control" placeholder="The URL name" @bind-value="post.Slug"/>
+                <br />
+
+                <label class="form-label" asp-for="@post.Excerpt">Excerpt</label>
+                <input class="form-control" required rows="3" placeholder="Short description of blog post" @bind-value="post.Excerpt"/>
+                <br />
+
+                <label class="form-label" asp-for="@post.Content">Content</label>
+                <InputTextArea class="form-control" rows="10" @bind-Value="post.Content" />
+                 <br />
+
+                <label class="form-label" asp-for="@post.PublishDate">Publish Date</label>
+                <DateRangePicker class="form-control" SingleDatePicker="true"  Drops="DropsType.Up" StartDate="@DateTime.Now" @bind-Value="post.PublishDate" />
+                <br />
+                <input type="submit" value="Submit" class="btn btn-primary"/>
+                 <br />
+            </EditForm>
+        </div>
+        <div class="row">
+            <br />
+        </div>
+</div>
+
+@code {
+    private Post post = new();
+
+    private async Task CreatePost()
+    {
+        await blogService.SavePost(post);
+        ClosePage();
+
+    }
+
+    private void ClosePage()
+    {
+        navManager.NavigateTo("/");
+    }
+
+}
+
