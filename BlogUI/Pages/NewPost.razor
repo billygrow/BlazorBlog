@@ -4,6 +4,8 @@
 @using BlazorDateRangePicker
 @using BlogUI.Models
 @using BlogUI.Services
+  @using TinyMCE.Blazor
+ 
 
 <PageTitle>New Post</PageTitle>
 
@@ -24,11 +26,17 @@
                 <br />
 
                 <label class="form-label" asp-for="@post.Content">Content</label>
-                <InputTextArea class="form-control" rows="10" @bind-Value="post.Content" />
+                <Editor Field="() => post.Content" 
+                      class="form-control"
+                      @bind-Value="post.Content"
+                      ValidationOnInput="@true"
+                      ApiKey="h236fo4rttg7yauwarzs5yiqzpr243zv1glzrdh7m2qs6ak1"
+                      Conf="@editorConf"
+                      />
                  <br />
 
                 <label class="form-label" asp-for="@post.PublishDate">Publish Date</label>
-                <DateRangePicker class="form-control" SingleDatePicker="true"  Drops="DropsType.Up" StartDate="@DateTime.Now" @bind-Value="post.PublishDate" />
+                <DateRangePicker class="form-control" SingleDatePicker="true"  Drops="DropsType.Up" @bind-StartDate="PublishDate" />
                 <br />
                 <input type="submit" value="Submit" class="btn btn-primary"/>
                  <br />
@@ -41,18 +49,35 @@
 
 @code {
     private Post post = new();
+    DateTimeOffset? PublishDate { get; set; } = DateTime.Today;
 
     private async Task CreatePost()
     {
+        post.PublishDate = PublishDate.Value.DateTime;
         await blogService.SavePost(post);
         ClosePage();
-
     }
+
+
 
     private void ClosePage()
     {
         navManager.NavigateTo("/");
     }
+
+    private Dictionary<string, object> editorConf = new Dictionary<string, object>{
+        {"plugins", "autosave preview searchreplace visualchars image link media fullscreen code codesample table hr pagebreak autoresize nonbreaking anchor insertdatetime advlist lists textcolor wordcount imagetools colorpicker" },
+        {"menubar", "edit view format insert table"},
+        {"toolbar1", "formatselect | bold italic blockquote forecolor backcolor | imageupload link | alignleft aligncenter alignright  | numlist bullist outdent indent | fullscreen"},
+        {"selection_toolbar", "bold italic | quicklink h2 h3 blockquote" },
+        {"autoresize_bottom_margin", 0 },
+        {"paste_data_images", true },
+        {"image_advtab", true },
+        {"file_picker_types", "image"},
+        {"relative_urls", false },
+        {"convert_urls", false },
+        {"branding", false }
+    };
 
 }
 

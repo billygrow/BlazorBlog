@@ -1,5 +1,7 @@
 ﻿@page "/blog/{Slug}"
 @inject IBlogService blogService
+@inject IJSRuntime _jsRuntime
+@inject IWebHostEnvironment env
 @using BlogUI.Models
 @using BlogUI.Services
 
@@ -8,8 +10,9 @@
 <div class="container">
     <div>
         <h1>@post.Title</h1>
-        <h4>@post.PublishDate</h4>
-        <p>@post.Content</p>
+        <h5>@post.PublishDate.ToString("MMMM dd, yyyy")</h5>
+        <br />
+        <p>@((MarkupString)@post.RenderContent())</p>
     </div>
 </div>
 
@@ -17,10 +20,15 @@
     [Parameter]
     public string slug { get; set; }
     private Post post;
-
+    private string path;
     protected override async Task OnInitializedAsync()
     {
         post = await blogService.GetPostBySlug(slug);
     }
-
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        var host = env.WebRootPath;
+        var targetPath = $"{host}\\js\\prism\\prism.js";
+        await _jsRuntime.InvokeVoidAsync("Prism.highlightAll", targetPath);
+    }
 }
