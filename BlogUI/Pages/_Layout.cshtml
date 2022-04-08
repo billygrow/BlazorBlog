@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
     <link href="css/site.css" rel="stylesheet" />
     <link rel="stylesheet" href="_content/BlazorDateRangePicker/daterangepicker.min.css" />
+    <link rel="stylesheet" href="~/js/prism/prism.css" />
     <link href="BlogUI.styles.css" rel="stylesheet" />
      
     <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
@@ -20,7 +21,7 @@
 
     <div id="blazor-error-ui">
         <environment include="Staging,Production">
-            An error has occurred. This application may no longer respond until reloaded.
+            An error has occurred. This application may no longer respond untiljd reloaded.
         </environment>
         <environment include="Development">
             An unhandled exception has occurred. See browser dev tools for details.
@@ -29,11 +30,14 @@
         <a class="dismiss">🗙</a>
     </div>
 
-    <script src="_framework/blazor.server.js"></script>
+
+
+
     <script src="_content/BlazorDateRangePicker/clickAndPositionHandler.js"></script>
     <script src="_content/TinyMCE.Blazor/tinymce-blazor.js"></script>
-
-    <link rel="preload" href="~js/prism/prism.css" as="style" />
-    <script src="~\js\prism\prism.js" data-manual></script>
+    <script src="~/js/admin.js" async defer></script>
+    <script src="~/js/prism/prism.js" data-manual></script>
+    <script src="_framework/blazor.server.js"></script>
+    
 </body>
 </html>

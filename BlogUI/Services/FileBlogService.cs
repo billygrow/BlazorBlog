@@ -36,7 +36,7 @@ public class FileBlogService : IBlogService
         var isAdmin = true; //this.IsAdmin();
 
         var posts = this.cache
-            .Where(p => p.PublishDate <= DateTime.UtcNow && (p.IsPublished || isAdmin)).ToAsyncEnumerable();
+            .Where(p => p.PublishDate <= DateTime.Now && (p.IsPublished || isAdmin)).ToAsyncEnumerable();
 
         return posts;
     }
@@ -46,7 +46,7 @@ public class FileBlogService : IBlogService
         var isAdmin = true; //this.IsAdmin();
 
         var posts = this.cache
-            .Where(p => p.PublishDate <= DateTime.UtcNow && (p.IsPublished || isAdmin))
+            .Where(p => p.PublishDate <= DateTime.Now && (p.IsPublished || isAdmin))
             .Skip(skip)
             .Take(count)
             .ToAsyncEnumerable();
@@ -159,7 +159,7 @@ public class FileBlogService : IBlogService
         var post = this.cache.FirstOrDefault(p => p.ID.Equals(id, StringComparison.OrdinalIgnoreCase));
 
         return Task.FromResult(
-            post is null || post.PublishDate > DateTime.UtcNow || (!post.IsPublished && !isAdmin)
+            post is null || post.PublishDate > DateTime.Now || (!post.IsPublished && !isAdmin)
             ? null
             : post);
     }
@@ -170,7 +170,7 @@ public class FileBlogService : IBlogService
         var post = this.cache.FirstOrDefault(p => p.Slug.Equals(slug, StringComparison.OrdinalIgnoreCase));
 
         return Task.FromResult(
-            post is null || post.PublishDate > DateTime.UtcNow || (!post.IsPublished && !isAdmin)
+            post is null || post.PublishDate > DateTime.Now || (!post.IsPublished && !isAdmin)
             ? null
             : post);
     }
@@ -180,7 +180,7 @@ public class FileBlogService : IBlogService
         var isAdmin = true; //this.IsAdmin();
 
         var posts = from p in this.cache
-                    where p.PublishDate <= DateTime.UtcNow && (p.IsPublished || isAdmin)
+                    where p.PublishDate <= DateTime.Now && (p.IsPublished || isAdmin)
                     where p.Categories.Contains(category, StringComparer.OrdinalIgnoreCase)
                     select p;
 
@@ -192,7 +192,7 @@ public class FileBlogService : IBlogService
         var isAdmin = true; // this.IsAdmin();
 
         var posts = from p in this.cache
-                    where p.PublishDate <= DateTime.UtcNow && (p.IsPublished || isAdmin)
+                    where p.PublishDate <= DateTime.Now && (p.IsPublished || isAdmin)
                     where p.Tags.Contains(tag, StringComparer.OrdinalIgnoreCase)
                     select p;
 
@@ -206,7 +206,7 @@ public class FileBlogService : IBlogService
             throw new ArgumentNullException(nameof(bytes));
         }
 
-        suffix = CleanFromInvalidChars(suffix ?? DateTime.UtcNow.Ticks.ToString(CultureInfo.InvariantCulture));
+        suffix = CleanFromInvalidChars(suffix ?? DateTime.Now.Ticks.ToString(CultureInfo.InvariantCulture));
 
         var ext = Path.GetExtension(fileName);
         var name = CleanFromInvalidChars(Path.GetFileNameWithoutExtension(fileName));

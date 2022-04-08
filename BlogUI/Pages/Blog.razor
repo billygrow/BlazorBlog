@@ -1,20 +1,20 @@
 ﻿@page "/blog/{Slug}"
 @inject IBlogService blogService
-@inject IJSRuntime _jsRuntime
-@inject IWebHostEnvironment env
+@inject IJSRuntime jsRuntime
+@using Microsoft.JSInterop
 @using BlogUI.Models
 @using BlogUI.Services
 
 <PageTitle>@post.Title</PageTitle>
 
-<div class="container">
-    <div>
-        <h1>@post.Title</h1>
-        <h5>@post.PublishDate.ToString("MMMM dd, yyyy")</h5>
-        <br />
-        <p>@((MarkupString)@post.RenderContent())</p>
+    <div class="row">
+        <div class="col-12 justify-content-center">
+            <h1>@post.Title</h1>
+            <h5>@post.PublishDate.ToString("MMMM dd, yyyy")</h5>
+            <br />
+            <p>@((MarkupString)@post.RenderContent())</p>
+        </div>
     </div>
-</div>
 
 @code {
     [Parameter]
@@ -27,8 +27,6 @@
     }
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        var host = env.WebRootPath;
-        var targetPath = $"{host}\\js\\prism\\prism.js";
-        await _jsRuntime.InvokeVoidAsync("Prism.highlightAll", targetPath);
+        await jsRuntime.InvokeVoidAsync("Prism.highlightAll");
     }
 }
